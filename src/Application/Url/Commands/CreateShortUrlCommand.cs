@@ -8,7 +8,7 @@ namespace UrlShortenerService.Application.Url.Commands;
 public record CreateShortUrlCommand : IRequest<string>
 {
     /// <summary>
-    /// The URL to be shorteneda.
+    /// The URL to be shortened.
     /// </summary>
     public string Url { get; init; } = default!;
 }
