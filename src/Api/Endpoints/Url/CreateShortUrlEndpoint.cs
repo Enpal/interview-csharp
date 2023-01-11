@@ -63,6 +63,6 @@ public class CreateShortUrlEndpoint : BaseEndpoint<CreateShortUrlRequest>
             },
             ct
         );
-        await SendRedirectAsync(result);
+        await SendOkAsync(result);
     }
 }
