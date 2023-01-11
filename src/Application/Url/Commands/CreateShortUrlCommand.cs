@@ -16,14 +16,14 @@ public record CreateShortUrlCommand : IRequest<string>
 /// <summary>
 /// Validator for <see cref="CreateShortUrlCommand"/>.
 /// </summary>
-public class CreateShortUrlCommandValidator : AbstractValidator<RedirectToUrlCommand>
+public class CreateShortUrlCommandValidator : AbstractValidator<CreateShortUrlCommand>
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="CreateShortUrlCommandValidator"/> class.
     /// </summary>
     public CreateShortUrlCommandValidator()
     {
-        _ = RuleFor(v => v.Id)
+        _ = RuleFor(v => v.Url)
           .NotEmpty()
           .WithMessage("Id is required.");
     }
