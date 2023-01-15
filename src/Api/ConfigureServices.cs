@@ -10,9 +10,6 @@ public static class ConfigureServices
     {
         _ = services.AddSingleton<ExceptionHandlingMiddleware>();
 
-        var salt = configuration["Hashids:Salt"];
-        var alphabet = configuration["Hashids:Alphabet"];
-        Console.WriteLine(salt!, alphabet);
         _ = services.AddSingleton<IHashids>(
             new Hashids(
               salt: configuration["Hashids:Salt"],
