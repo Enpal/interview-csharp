@@ -9,10 +9,9 @@ public class CreateShortUrlSummary : Summary<CreateShortUrlEndpoint>
 {
     public CreateShortUrlSummary()
     {
-        Summary = "Redirect to the original url from the short url";
+        Summary = "Create short url from provided url";
         Description =
-            "This endpoint will redirect to the original url from the short url. If the short url is not found, it will return a 404.";
-        Response(409, "No short url found.");
+            "This endpoint will create a short url from provided original url.";
         Response(500, "Internal server error.");
     }
 }

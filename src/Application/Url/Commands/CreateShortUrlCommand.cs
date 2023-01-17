@@ -16,7 +16,7 @@ public class CreateShortUrlCommandValidator : AbstractValidator<CreateShortUrlCo
     {
         _ = RuleFor(v => v.Url)
           .NotEmpty()
-          .WithMessage("Id is required.");
+          .WithMessage("Url is required.");
     }
 }
 
