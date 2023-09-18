@@ -39,23 +39,7 @@ public class RedirectToUrlCommandHandler : IRequestHandler<RedirectToUrlCommand,
     public async Task<string> Handle(RedirectToUrlCommand request, CancellationToken cancellationToken)
     {
         await Task.CompletedTask;
-        var decoded = decode(request.Id);
-        return new RedirectResult(decoded).Url;
-    }
-    public static byte[] FromHex(string hex)
-    {
-        hex = hex.Replace("-", "");
-        byte[] raw = new byte[hex.Length / 2];
-        for (int i = 0; i < raw.Length; i++)
-        {
-            raw[i] = Convert.ToByte(hex.Substring(i * 2, 2), 16);
-        }
-    return raw;
-}
-
-    public string decode(string id) {
-        var hex = _hashids.DecodeHex(id);
-        byte[] data = FromHex(hex);
-        return Encoding.UTF8.GetString(data);
+        var url = _context.Urls.FirstOrDefault(url => url.Id == request.Id);
+        return new RedirectResult(url.OriginalUrl).Url;
     }
 }

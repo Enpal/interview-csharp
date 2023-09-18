@@ -5,7 +5,7 @@ using FluentValidation;
 using HashidsNet;
 using MediatR;
 using UrlShortenerService.Application.Common.Interfaces;
-
+using UrlShortenerService.Domain.Entities;
 namespace UrlShortenerService.Application.Url.Commands;
 
 public record CreateShortUrlCommand : IRequest<string>
@@ -28,8 +28,6 @@ public class CreateShortUrlCommandHandler : IRequestHandler<CreateShortUrlComman
     private readonly IApplicationDbContext _context;
     private readonly IHashids _hashids;
 
-    //private List<string> hashedUrls = new List<string>();
-
     public CreateShortUrlCommandHandler(IApplicationDbContext context, IHashids hashids)
     {
         _context = context;
@@ -38,13 +36,22 @@ public class CreateShortUrlCommandHandler : IRequestHandler<CreateShortUrlComman
     public async Task<string> Handle(CreateShortUrlCommand request, CancellationToken cancellationToken)
     {
         await Task.CompletedTask;
-        var shortUrl = "http://localhost:5246/u/" + encode(request.Url);
-        //hashedUrls.Add(shortUrl);
+        var id = CalculateShortId(request.Url);
+        var shortUrl = "http://localhost:5246/u/" + id;
+        _context.Urls.Add(new Domain.Entities.Url() 
+        { 
+            Id = id,
+            OriginalUrl = request.Url
+        });
+        await _context.SaveChangesAsync(cancellationToken);
         return shortUrl;
     }
-    public string encode(string url) {
-        byte[] bytes = Encoding.UTF8.GetBytes(url);
-        var hex = Convert.ToHexString(bytes);
-        return _hashids.EncodeHex(hex);
+    private string CalculateShortId(string originalUrl)
+    {
+        using (SHA256 sha256 = SHA256.Create())
+        {
+            byte[] hashBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(originalUrl));
+            return BitConverter.ToString(hashBytes).Replace("-", "").Substring(0, 8); // Use the first 8 characters as the short ID
+        }
     }
 }
