@@ -36,7 +36,7 @@ public class CreateShortUrlCommandHandler : IRequestHandler<CreateShortUrlComman
     public async Task<string> Handle(CreateShortUrlCommand request, CancellationToken cancellationToken)
     {
         await Task.CompletedTask;
-        var id = CalculateShortId(request.Url);
+        var id = CalculateShortId(request.Url); // Guid.NewGuid().ToString();  We could use Guid, but I wanted shorter IDs
         var shortUrl = "http://localhost:5246/u/" + id;
         _context.Urls.Add(new Domain.Entities.Url() 
         { 
