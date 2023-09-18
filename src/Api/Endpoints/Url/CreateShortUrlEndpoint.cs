@@ -15,7 +15,6 @@ public class CreateShortUrlSummary : Summary<CreateShortUrlEndpoint>
         Response(500, "Internal server error.");
     }
 }
-
 public class CreateShortUrlEndpoint : BaseEndpoint<CreateShortUrlRequest>
 {
     public CreateShortUrlEndpoint(ISender mediator, IMapper mapper)
@@ -31,7 +30,6 @@ public class CreateShortUrlEndpoint : BaseEndpoint<CreateShortUrlRequest>
         );
         Summary(new CreateShortUrlSummary());
     }
-
     public override async Task HandleAsync(CreateShortUrlRequest req, CancellationToken ct)
     {
         var result = await Mediator.Send(
