@@ -1,4 +1,4 @@
-using FastEndpoints.Swagger;
+﻿using FastEndpoints.Swagger;
 using UrlShortenerService.Api.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,16 +11,18 @@ if (builder.Environment.IsDevelopment())
 }
 
 // Add services to the container.
-_ = builder.Services.AddApplicationServices();
-_ = builder.Services.AddInfrastructureServices(builder.Configuration);
-_ = builder.Services.AddApiServices(builder.Configuration);
-
-builder.Services.AddSwaggerDoc(maxEndpointVersion: 1, tagIndex: 0, settings: x =>
+_ = builder.Services.AddMvc();
+_ = builder.Services.SwaggerDocument();
+_ = builder.Services.AddSwaggerDocument(x =>
 {
     x.DocumentName = "Release 1.0";
     x.Title = "Url Shortener Service";
     x.Version = "1.0";
 });
+
+_ = builder.Services.AddApplicationServices();
+_ = builder.Services.AddInfrastructureServices(builder.Configuration);
+_ = builder.Services.AddApiServices(builder.Configuration);
 
 var app = builder.Build();
 
@@ -32,7 +34,7 @@ _ = app.UseFastEndpoints();
 if (app.Environment.IsDevelopment())
 {
     _ = app.UseOpenApi();
-    _ = app.UseSwaggerUi3();
+    _ = app.UseSwaggerUI();
 }
 
 _ = app.UseHttpsRedirection();
