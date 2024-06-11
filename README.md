@@ -15,7 +15,7 @@ Requirements
 
 System Requirements
 
-    A functional installation of the .NET Core 7.0 SDK
+    A functional installation of the .NET Core 8.0 SDK
     A code editor you're comfortable with.
 
 Getting Started
